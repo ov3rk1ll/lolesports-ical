@@ -1,0 +1,125 @@
+<html>
+  <head>
+    <title>LoL Esports iCal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <header>
+      <h1>LoL Esports iCal</h1>
+      <small>
+        You can download the iCal files below or import them into any calender
+        app via the URL.<br />The data will update once per day
+      </small>
+    </header>
+    <main>
+      <ul id="leagues" class="leagues"></ul>
+    </main>
+    <footer>&copy;2019 by ov3rk1ll</footer>
+
+    <style>
+      body {
+        background: #15171a;
+        color: #fff;
+        line-height: 1em;
+        font-family: "Colfax", Helvetica, sans-serif;
+        font-size: 1.6rem;
+        margin: 0;
+      }
+      header {
+        margin: 10px;
+      }
+      header small {
+        font-size: 0.8rem;
+        color: #555d64;
+        line-height: 1.1;
+      }
+      footer {
+        font-size: 0.8rem;
+        padding: 0px 10px;
+        color: #555d64;
+      }
+      header h1 {
+        font-size: 3rem;
+        line-height: 1.1em;
+        margin-bottom: 0.2em;
+      }
+      a,
+      a:visited {
+        color: #fff;
+      }
+      .leagues {
+        padding: 0 0 80px 0;
+        margin: 0;
+        overflow-y: auto;
+      }
+      .leagues .league {
+        position: relative;
+        list-style: none;
+        border-bottom: 1px solid #292d31;
+        transition: background 0.25s ease-out;
+      }
+      .leagues .league .info {
+        padding: 12px 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .leagues .league .info .image {
+        width: 60px;
+        min-width: 60px;
+        height: 60px;
+        margin: 0 12px 0 12px;
+      }
+
+      .leagues .league .info .label {
+        padding: 0;
+      }
+
+      .leagues .league .info .label .name {
+        font-size: 1.6rem;
+        font-weight: normal;
+        white-space: nowrap;
+      }
+
+      .leagues .league .info .label .region {
+        text-transform: uppercase;
+        color: #555d64;
+        font-size: 1.2rem;
+        letter-spacing: 0.1rem;
+        font-weight: bold;
+      }
+
+      .leagues .league .info .label .link {
+        font-size: 0.8rem;
+        font-weight: lighter;
+      }
+    </style>
+
+    <script>
+      fetch("ics/leagues.json")
+        .then(resp => {
+          return resp.json();
+        })
+        .then(leagues => {
+          let ul = document.getElementById("leagues");
+          for (let league of leagues) {
+            let li = document.createElement("li");
+            li.classList.add("league");
+            li.innerHTML = `
+              <div class="info">
+                <img
+                    src="${league.image}"
+                    class="image"
+                    />
+                <div class="label">
+                    <div class="name">${league.name}</div>
+                    <div class="region">${league.region}</div>
+                    <div class="link"><a href="ics/${league.slug}.ics">Link to ics calendar file</a></div>
+                </div>
+            </div>`;
+            ul.appendChild(li);
+          }
+        });
+    </script>
+  </body>
+</html>
